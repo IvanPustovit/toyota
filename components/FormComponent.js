@@ -18,6 +18,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css"
 import "@react-pdf-viewer/default-layout/lib/styles/index.css"
 import { regions } from "../data/regions"
 import { citiesByRegion } from "../data/citiesByRegion"
+import { commission } from "@/data/comision"
 
 const Viewer = dynamic(
     () => import("@react-pdf-viewer/core").then((mod) => mod.Viewer),
@@ -31,6 +32,7 @@ const Worker = dynamic(
 const initialState = {
     ProductId: "4607",
     InputParameters: [
+        { Code: "CMM_CODE", Value: "", Name: "Комісійна винагорода" },
         { Code: "TS_GOD", Value: "", Name: "Рік випуску" },
         { Code: "TS_INSUM", Value: "", Name: "Сума страхового внеску" },
         { Code: "TS_MARKANEW", Value: "", Name: "Марка авто" },
@@ -45,6 +47,7 @@ const FormComponent = () => {
     const [formState, setFormState] = useState(initialState)
     const [selectedRegion, setSelectedRegion] = useState("")
     const [selectedCity, setSelectedCity] = useState("")
+    const [selectedCommission, setSelectedCommission] = useState("")
     const [cities, setCities] = useState([])
     const [pdfBase64, setPdfBase64] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -64,6 +67,16 @@ const FormComponent = () => {
             (param) => param.Code === "TS_MR1"
         )
         newInputParameters[regionIndex].Value = region
+        setFormState({ ...formState, InputParameters: newInputParameters })
+    }
+    const handleCommission = (event) => {
+        const commission = event.target.value
+        setSelectedCommission(commission)
+        const newInputParameters = [...formState.InputParameters]
+        const commissionIndex = newInputParameters.findIndex(
+            (param) => param.Code === "CMM_CODE"
+        )
+        newInputParameters[commissionIndex].Value = commission
         setFormState({ ...formState, InputParameters: newInputParameters })
     }
 
@@ -98,7 +111,6 @@ const FormComponent = () => {
                 ...formState,
                 InputParameters: [
                     ...formState.InputParameters,
-                    { Code: "CMM_CODE", Value: "04" },
                     { Code: "TS_FRGL", Value: "01" },
                     { Code: "ctg", Value: "1" },
                 ],
@@ -140,6 +152,27 @@ const FormComponent = () => {
                 sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
                 {formState.InputParameters.map((param, index) => {
+                    if (param.Code === "CMM_CODE") {
+                        return (
+                            <FormControl fullWidth key={param.Code}>
+                                <InputLabel>{param.Name}</InputLabel>
+                                <Select
+                                    value={selectedCommission}
+                                    onChange={handleCommission}
+                                    label={param.Name}
+                                >
+                                    {commission.map((commission) => (
+                                        <MenuItem
+                                            key={commission.code}
+                                            value={commission.code}
+                                        >
+                                            {commission.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        )
+                    }
                     if (param.Code === "TS_MR1") {
                         return (
                             <FormControl fullWidth key={param.Code}>

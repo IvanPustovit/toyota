@@ -20,7 +20,7 @@ import { typeDocs } from "@/data/typeDocs"
 
 const initialState = {
     agcode: null,
-    ibt_id: "4425_New",
+    ibt_id: process.env.NEXT_PUBLIC_PRODUCT,
     icd_dbeg: "",
     icd_externalid: "",
     icd_commission: "",

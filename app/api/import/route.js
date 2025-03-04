@@ -8,7 +8,7 @@ export async function POST(req) {
 // console.log(accessToken)
 
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL_TEST}/api/importicd/v2`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/importicd/v2`,
             {
                 method: "POST",
                 headers: {

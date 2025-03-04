@@ -4,7 +4,7 @@ export async function POST(req) {
     try {
         
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL_TEST}/token`,
+            `${process.env.NEXT_PUBLIC_API_URL}/token`,
             {
                 method: "POST",
                 headers: {
@@ -12,8 +12,8 @@ export async function POST(req) {
                 },
                 body: new URLSearchParams({
                     grant_type: "password",
-                    username: process.env.NEXT_PUBLIC_TOKEN_LOGIN_TEST,
-                    password: process.env.NEXT_PUBLIC_TOKEN_PASSWORD_TEST,
+                    username: process.env.NEXT_PUBLIC_TOKEN_LOGIN,
+                    password: process.env.NEXT_PUBLIC_TOKEN_PASSWORD,
                 }),
             }
         )

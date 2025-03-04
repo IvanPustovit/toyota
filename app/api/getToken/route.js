@@ -2,17 +2,21 @@ import { NextResponse } from "next/server"
 
 export async function POST(req) {
     try {
-        const response = await fetch("https://istudio.uniqa.ua/webapi/token", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams({
-                grant_type: "password",
-                username: "toyotaapiprod",
-                password: "toyota20QAZWSX_24",
-            }),
-        })
+        
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL_TEST}/token`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    grant_type: "password",
+                    username: process.env.NEXT_PUBLIC_TOKEN_LOGIN_TEST,
+                    password: process.env.NEXT_PUBLIC_TOKEN_PASSWORD_TEST,
+                }),
+            }
+        )
 
         if (!response.ok) {
             throw new Error("Network response was not ok")
